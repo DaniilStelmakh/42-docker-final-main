@@ -1,5 +1,5 @@
 # указываем родительсикй образ
-FROM golang:1.22.5 
+FROM golang:1.22
 # создаем каталог внутри создаваемого образа 
 # (для простоты, указываем, что все последующие команды будут выполнятся в нем)
 WORKDIR /app 
@@ -9,9 +9,10 @@ COPY go.mod go.sum ./
 # указанные в go.mod и go.sum будут установлены в каталог /app
 RUN go mod download 
 # копируем все файлы с расширением .go 
-#
-COPY *.go ./ 
-# для компиляции приложения 
-RUN CGO_ENABLED=0 GOOS=linux go build -o /docker-42-final
+COPY *.go *.db ./ 
+# установка перменной среды 
+ENV CGO_ENABLED=0 GOOS=linux 
+# выполнения команды сборки для удачной компиляции 
+RUN go build -o /docker-42-final
 # команда, когда Docker - образ используется для запуска контейнера 
 CMD [ "/docker-42-final" ]
