@@ -9,7 +9,6 @@ COPY go.mod go.sum ./
 # указанные в go.mod и go.sum будут установлены в каталог /app
 RUN go mod download 
 # копируем все файлы с расширением .go 
-#
 COPY *.go ./ 
 # для компиляции приложения 
 RUN CGO_ENABLED=0 GOOS=linux go build -o /docker-42-final
